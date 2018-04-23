@@ -1,0 +1,46 @@
+{
+  "name": "rich-enum",
+  "version": "0.0.0-semantically-released",
+  "description":
+    "A implementation of enum like feature, but more powerful and extensible.",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "> 4",
+    "npm": "> 3"
+  },
+  "scripts": {
+    "add-contributor": "kcd-scripts contributors add",
+    "build": "kcd-scripts build --bundle",
+    "lint": "kcd-scripts lint",
+    "test": "kcd-scripts test",
+    "test:update": "npm test -- --updateSnapshot --coverage",
+    "validate": "kcd-scripts validate",
+    "setup": "npm install && npm run validate -s",
+    "precommit": "kcd-scripts precommit"
+  },
+  "files": ["dist"],
+  "keywords": [],
+  "author":
+    "Jianhua Cheng <w.chengjianhua@gmail.com> (https://chengjianhua.github.io)",
+  "license": "MIT",
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "lodash": "^4.17.5",
+    "object-assign": "^4.1.1"
+  },
+  "devDependencies": {
+    "kcd-scripts": "^0.36.1"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/kcd-scripts/eslint.js"
+  },
+  "eslintIgnore": ["node_modules", "coverage", "dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chengjianhua/rich-enum.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chengjianhua/rich-enum/issues"
+  },
+  "homepage": "https://github.com/chengjianhua/rich-enum#readme"
+}

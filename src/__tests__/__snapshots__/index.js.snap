@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib should be tested # constructor should throw exception if value is empty 1`] = `"The value of \`TYPE_A\` is required, it must be defined in the first item in array or property in an object"`;
+
+exports[`lib should be tested # constructor should throw exception if value is empty 2`] = `"The value of \`TYPE_A\` is required, it must be defined in the first item in array or property in an object"`;
