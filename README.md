@@ -20,6 +20,64 @@
 [![Star on GitHub][github-star-badge]][github-star]
 [![Tweet][twitter-badge]][twitter]
 
+## The problem
+
+We could use a plain object to simulate an enumeration type. It's fine that if we just need to use this to store the value of a key and access the predefined value by a key. What if we need to store and read more informations by a key or read some information by value ?
+
+Take the api documentation described by `protocol buffers` as an example:
+
+```proto
+message SearchRequest {
+  enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+    IMAGES = 2;
+    LOCAL = 3;
+    NEWS = 4;
+    PRODUCTS = 5;
+    VIDEO = 6;
+  }
+
+  Corpus corpus = 4;
+}
+```
+
+In the above example, it define an value `corpus` of `enum` type `Corpus`. When we communicate with the back end api, wo need to passed something like this:
+
+```javascript
+const Corpus = {
+  UNIVERSAL: 0,
+  WEB: 1,
+  IMAGES: 2,
+  LOCAL: 3,
+  NEWS: 4,
+  PRODUCTS: 5,
+  VIDEO: 6,
+}
+
+const request = {
+  corpus: Corpus.UNIVERSAL,
+}
+```
+
+In the context of communicating with the back end API, we can create an object to map the key like `UNIVERSAL` to the value `0` and other enumeration values the same way. But if we want to add more information to the enumeration value? Such as detailed description and any other extra pieces of information. For example, we have a value `0` and we want to know which enumeration item has the value `0`, we also want to display the corresponding description for this value.
+
+```javascript
+const CorpusText = {
+  [Corpus.UNIVERSAL]: 'Universal',
+  //...
+  [Corpus.VIDEO]: 'Video',
+}
+
+CorpusText[corpusValue]
+```
+
+The solution the above provided can meet our needs, but it's too troublesome. So we take `rich-enum` as the more great solution.
+
+## This solution
+
+This solution is apparent when we define the enum value, we attach more information with it, then through the key and extensible API to use the enumeration value in the form we need.
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -30,9 +88,6 @@
 * [Usage](#usage)
   * [Basic](#basic)
   * [Advanced](#advanced)
-* [Inspiration](#inspiration)
-* [The problem](#the-problem)
-* [This solution](#this-solution)
 * [Other Solutions](#other-solutions)
 * [Contributors](#contributors)
 * [LICENSE](#license)
@@ -132,60 +187,6 @@ CorpusEnum.UNIVERSAL.extra // 'Extra information of the universal'
 ```
 
 The instance method `new RichEnum().extend()` will merge the new detail object with the older one shallowly per key. And return a new instance, so it will not pollute the original instance.
-
-## Inspiration
-
-// TODO
-
-## The problem
-
-We could use a plain object to simulate an enumeration type. It's fine that if we just need to use this to store the value of a key and access the predefined value by a key. What if we need to store and read more informations by a key or read some information by value ?
-
-Take the api documentation described by `protocol buffers` as an example:
-
-```proto
-message SearchRequest {
-  enum Corpus {
-    UNIVERSAL = 0;
-    WEB = 1;
-    IMAGES = 2;
-    LOCAL = 3;
-    NEWS = 4;
-    PRODUCTS = 5;
-    VIDEO = 6;
-  }
-
-  Corpus corpus = 4;
-}
-```
-
-In the above example, it define an value `corpus` of `enum` type `Corpus`. When we communicate with the back end api, wo need to passed something like this:
-
-```javascript
-const Corpus = {
-  UNIVERSAL: 0,
-  WEB: 1,
-  IMAGES: 2,
-  LOCAL: 3,
-  NEWS: 4,
-  PRODUCTS: 5,
-  VIDEO: 6,
-}
-
-const request = {
-  corpus: Corpus.UNIVERSAL,
-}
-```
-
-In the context of communicating with the back end api, we can just create an object to map the key like `UNIVERSAL` to the value `0` and other enumeration values the same way. But if we want to added more informations into the enumeration value? Such as detailed description and any other extra informations. For example, we have a value `0` and we want to know which enumeration item has the value `0`, we also want to display corresponding description for this value.
-
-```
-
-```
-
-## This solution
-
-// TODO
 
 ## Other Solutions
 
