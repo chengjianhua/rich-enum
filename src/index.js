@@ -2,7 +2,7 @@ import invariant from 'invariant'
 import assign from 'object-assign'
 
 /* istanbul ignore next */
-const RICH_ENUM_SYMBOL = Symbol ? Symbol('RichEnum') : '__rich_enum__'
+const RICH_ENUM_SYMBOL = Symbol('RichEnum')
 
 export default class RichEnum {
   [RICH_ENUM_SYMBOL] = true
@@ -59,6 +59,10 @@ export default class RichEnum {
 
   extend(map) {
     return extendEnum(this, map)
+  }
+
+  [Symbol.iterator]() {
+    return this.array[Symbol.iterator]()
   }
 
   static extend(richEnum, map) {

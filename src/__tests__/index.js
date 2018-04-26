@@ -140,4 +140,22 @@ describe('lib should be tested', () => {
       expect(RichEnum.isRichEnum()).toBe(false)
     })
   })
+
+  describe('# iterator', () => {
+    const enumeration = new RichEnum({
+      TYPE_A: [0, 'Type A'],
+      TYPE_B: [1, 'Type B'],
+    })
+
+    const result = []
+
+    for (const item of enumeration) {
+      result.push(item)
+    }
+
+    expect(result).toEqual([
+      {key: 'TYPE_A', text: 'Type A', value: 0},
+      {key: 'TYPE_B', text: 'Type B', value: 1},
+    ])
+  })
 })
