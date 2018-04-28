@@ -71,6 +71,21 @@ describe('lib should be tested', () => {
         })
       }).toThrowErrorMatchingSnapshot()
     })
+
+    it('should freeze the instance object', () => {
+      const enumeration = new RichEnum({})
+
+      expect(() => {
+        enumeration._map = null
+      }).toThrowErrorMatchingSnapshot()
+      expect(() => {
+        enumeration._map.a = null
+      }).toThrowErrorMatchingSnapshot()
+      expect(() => {
+        enumeration.a = null
+      }).toThrowErrorMatchingSnapshot()
+      expect(Object.isFrozen(enumeration)).toBeTruthy()
+    })
   })
 
   describe('# instance extend', () => {
@@ -133,11 +148,11 @@ describe('lib should be tested', () => {
     })
   })
 
-  describe('# isRichEnum', () => {
+  describe('# static is', () => {
     it('should check if a object is an RichEnum', () => {
-      expect(RichEnum.isRichEnum({})).toBe(false)
-      expect(RichEnum.isRichEnum(null)).toBe(false)
-      expect(RichEnum.isRichEnum()).toBe(false)
+      expect(RichEnum.is({})).toBe(false)
+      expect(RichEnum.is(null)).toBe(false)
+      expect(RichEnum.is()).toBe(false)
     })
   })
 

@@ -55,6 +55,8 @@ export default class RichEnum {
     this.text = enumTexts
     this.array = enumArray
     this._map = objectMap
+
+    deepFreeze(this)
   }
 
   extend(map) {
@@ -69,7 +71,7 @@ export default class RichEnum {
     return extendEnum(richEnum, map)
   }
 
-  static isRichEnum(obj) {
+  static is(obj) {
     return Boolean(obj && obj[RICH_ENUM_SYMBOL])
   }
 }
@@ -86,4 +88,17 @@ function extendEnum(richEnum, map) {
   }
 
   return new RichEnum(extendedMap)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+function deepFreeze(obj) {
+  const propNames = Object.getOwnPropertyNames(obj)
+
+  propNames.forEach(name => {
+    const prop = obj[name]
+
+    if (typeof prop === 'object' && prop !== null) deepFreeze(prop)
+  })
+
+  return Object.freeze(obj)
 }
