@@ -20,7 +20,7 @@ describe('lib should be tested', () => {
       expect(enumeration.text[enumeration.value.TYPE_A]).toBe('Type A')
       expect(enumeration.text[enumeration.value.TYPE_B]).toBe('Type B')
 
-      expect(enumeration.array).toEqual([
+      expect(enumeration.collection).toEqual([
         {key: 'TYPE_A', value: 0, text: 'Type A'},
         {key: 'TYPE_B', value: 1, text: 'Type B'},
       ])
@@ -38,7 +38,7 @@ describe('lib should be tested', () => {
       expect(enumeration.text[enumeration.value.TYPE_A]).toBe('Type A')
       expect(enumeration.text[enumeration.value.TYPE_B]).toBe('Type B')
 
-      expect(enumeration.array).toEqual([
+      expect(enumeration.collection).toEqual([
         {key: 'TYPE_A', value: 0, text: 'Type A'},
         {key: 'TYPE_B', value: 1, text: 'Type B'},
       ])

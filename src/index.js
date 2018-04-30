@@ -7,54 +7,52 @@ const RICH_ENUM_SYMBOL = Symbol('RichEnum')
 export default class RichEnum {
   [RICH_ENUM_SYMBOL] = true
 
-  _map
-
-  value
-
-  text
-
-  array
-
   constructor(map) {
     const enumValues = {}
-    const enumTexts = {}
     const enumArray = []
     const objectMap = {}
+    const infoMap = {}
 
-    for (const key in map) {
-      /* istanbul ignore else */
-      if (Object.prototype.hasOwnProperty.call(map, key)) {
-        const initProperties = map[key]
-        const properties = {key}
+    forOwn(map, (initProperties, key) => {
+      const properties = {}
 
-        if (Array.isArray(initProperties)) {
-          const [value, text] = initProperties
+      if (Array.isArray(initProperties)) {
+        const [value, text] = initProperties
 
-          properties.text = text
-          properties.value = value
-        } else {
-          // invariant
-          assign(properties, initProperties)
-        }
-
-        invariant(
-          properties.value !== undefined && properties.value !== null,
-          `The value of \`${key}\` is required, it must be defined in the first item in array or property in an object`,
-        )
-
-        enumValues[key] = properties.value
-        enumTexts[properties.value] = properties.text
-        enumArray.push(properties)
-
-        this[key] = properties
-        objectMap[key] = properties
+        properties.text = text
+        properties.value = value
+      } else {
+        // invariant
+        assign(properties, initProperties)
       }
-    }
 
-    this.value = enumValues
-    this.text = enumTexts
-    this.array = enumArray
-    this._map = objectMap
+      properties.key = key
+
+      const propertiesWithoutValue = {...properties}
+
+      delete propertiesWithoutValue.value
+
+      forOwn(propertiesWithoutValue, (property, propertyKey) => {
+        if (!infoMap[propertyKey]) infoMap[propertyKey] = {}
+
+        infoMap[propertyKey][properties.value] = property
+      })
+
+      invariant(
+        properties.value !== undefined && properties.value !== null,
+        `The value of \`${key}\` is required, it must be defined in the first item in array or property in an object`,
+      )
+
+      enumValues[key] = properties.value
+      objectMap[key] = properties
+      enumArray.push(properties)
+    })
+
+    Object.assign(this, infoMap, objectMap, {
+      value: enumValues,
+      collection: enumArray,
+      _map: objectMap,
+    })
 
     deepFreeze(this)
   }
@@ -64,7 +62,7 @@ export default class RichEnum {
   }
 
   [Symbol.iterator]() {
-    return this.array[Symbol.iterator]()
+    return this.collection[Symbol.iterator]()
   }
 
   static extend(richEnum, map) {
@@ -80,12 +78,9 @@ function extendEnum(richEnum, map) {
   const {_map: currentMap} = richEnum
   const extendedMap = {}
 
-  for (const key in map) {
-    /* istanbul ignore else */
-    if (Object.prototype.hasOwnProperty.call(map, key)) {
-      extendedMap[key] = assign({}, currentMap[key], map[key])
-    }
-  }
+  forOwn(map, (properties, key) => {
+    extendedMap[key] = assign({}, currentMap[key], map[key])
+  })
 
   return new RichEnum(extendedMap)
 }
@@ -101,4 +96,13 @@ function deepFreeze(obj) {
   })
 
   return Object.freeze(obj)
+}
+
+function forOwn(object, fn) {
+  for (const key in object) {
+    /* istanbul ignore else */
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
+      fn(object[key], key)
+    }
+  }
 }
