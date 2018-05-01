@@ -87,7 +87,7 @@ This solution is apparent when we define the enum value, we attach more informat
 * [Installation](#installation)
 * [Usage](#usage)
   * [Basic](#basic)
-  * [Advanced](#advanced)
+  * [`extend()`](#extend)
 * [Other Solutions](#other-solutions)
 * [Contributors](#contributors)
 * [LICENSE](#license)
@@ -161,7 +161,7 @@ CorpusEnum.UNIVERSAL // { key: 'UNIVERSAL', value: 0, text: 'UNIVERSAL' }
 CorpusEnum.VIDEO // { key: 'VIDEO', value: 6, text: 'Video' }
 
 /* loop the all enumerations with detailed information */
-CorpusEnum.array.forEach(({key, value, text}) => {
+CorpusEnum.collection.forEach(({key, value, text}) => {
   console.log({key, value, text})
   // { key: 'UNIVERSAL', value: 0, text: 'Universal' }
   // ...
@@ -169,7 +169,29 @@ CorpusEnum.array.forEach(({key, value, text}) => {
 })
 ```
 
-### Advanced
+The `RichEnum` instance has properties whose key is the `value` of an enumeration item, and the value is the `property value` of the enumeration item for every property defined for enumeration items except property `value`.
+
+The property `value` is the object whose key is the `key` of an item, and value is the value of property `value` in the properties.
+
+For Example:
+
+```javascript
+const enumeration = new RichEnumeration({
+  TYPE_A: {
+    value: 0,
+    text: 'Type A',
+    extra: 'Extra info',
+    xxx: 'xxx',
+  },
+})
+
+enumeration.value.TYPE_A // 0
+enumeration.text[0] // 'Type A'ga
+enumeration.extra[0] // 'Extra info'
+enumeration.xxx[0] // 'xxx'
+```
+
+### `extend()`
 
 if you defined a rich enumeration object, it's fine for your most scenes to be used. What if you have some extra information need to be bound with the same key only for a specified scene ?
 
