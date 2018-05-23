@@ -186,7 +186,7 @@ const enumeration = new RichEnumeration({
 })
 
 enumeration.value.TYPE_A // 0
-enumeration.text[0] // 'Type A'ga
+enumeration.text[0] // 'Type A'
 enumeration.extra[0] // 'Extra info'
 enumeration.xxx[0] // 'xxx'
 ```
