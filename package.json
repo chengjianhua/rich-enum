@@ -3,7 +3,8 @@
   "version": "0.0.0-semantically-released",
   "description":
     "A implementation of enum like feature, but more powerful and extensible.",
-  "main": "dist/index.js",
+  "main": "dist/rich-enum.cjs.js",
+  "module": "dist/rich-enum.esm.js",
   "engines": {
     "node": "> 4",
     "npm": "> 3"
